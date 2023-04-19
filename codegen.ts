@@ -1,16 +1,19 @@
-import { CodegenConfig } from '@graphql-codegen/cli';
+import { CodegenConfig } from "@graphql-codegen/cli";
+import dotenv from "dotenv";
+dotenv.config();
+const backend_url = process.env.REACT_APP_BACKEND!;
 
 const config: CodegenConfig = {
-  schema: 'http://localhost:4000/graphql',
-  documents: ['src/**/*.tsx', 'src/**/*.ts'],
+  schema: backend_url,
+  documents: ["src/**/*.tsx", "src/**/*.ts"],
   generates: {
-    './src/graphql/__generated__/': {
-      preset: 'client',
+    "./src/graphql/__generated__/": {
+      preset: "client",
       plugins: [],
       presetConfig: {
-        gqlTagName: 'gql',
-      }
-    }
+        gqlTagName: "gql",
+      },
+    },
   },
   ignoreNoDocuments: true,
 };

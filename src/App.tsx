@@ -24,8 +24,6 @@ function App() {
     fetchUsers();
   }, []);
 
-  console.log(users);
-
   return (
     <div className="App">
       <div>
