@@ -1,57 +1,79 @@
-import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import Layout, { Content, Header } from "antd/es/layout/layout";
 import "./App.css";
-import usersService from "./services/usersService";
+import Home from "./pages/Home";
+import "./styles/dashboard.css";
+import Sider from "antd/es/layout/Sider";
+import { Menu } from "antd";
+import { HiOutlineHome } from "react-icons/hi";
+import { GrOrganization } from "react-icons/gr";
+import { BsPerson } from "react-icons/bs";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [users, setUsers] = useState<any[]>([]);
-
-  const fetchUsers = async () => {
-    const usersPage = await usersService
-      .getAllUsers(
-        "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4LCJleHAiOjE2ODI0MzYzOTl9.oW1D-39uSB2BLMtJZQQhwyPWH8KgiTJHRhUY76incNo"
-      )
-      .catch((err) => {
-        console.log("Error: ", err);
-      });
-    const loginPage = await usersService.login("v@gmail.com", "password");
-    if (usersPage) setUsers(usersPage.users);
-  };
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
+  const [collapsed, setCollapsed] = useState(false);
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>{user.name}</li>
-        ))}
-      </ul>
-    </div>
+    <Layout className="container">
+      {/* <Header className="header">
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <GiHamburgerMenu
+            onClick={() => setCollapsed(!collapsed)}
+            size={28}
+            style={{ marginRight: 20 }}
+          />
+          <div className="brand">Cool Dashboard</div>
+        </div>
+      </Header> */}
+      <Header>
+        <div className="logo" />
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]}>
+          <Menu.Item key="1" icon={<HiOutlineHome />}>
+            <Link to="/">Home</Link>
+          </Menu.Item>
+          <Menu.Item key="2" icon={<GrOrganization />}>
+            <Link to="/profile">Profile</Link>
+          </Menu.Item>
+          <Menu.Item key="3" icon={<BsPerson />}>
+            Logout
+          </Menu.Item>
+        </Menu>
+      </Header>
+      <Layout>
+        <Sider collapsed={collapsed} theme="light">
+          <Menu
+            mode="inline"
+            items={[
+              {
+                key: "Home",
+                label: "Home",
+                icon: <HiOutlineHome />,
+                children: [
+                  {
+                    key: "add_profile",
+                    label: "Add Profile",
+                    icon: <BsPerson />,
+                  },
+                  {
+                    key: "all_users",
+                    label: "All Users",
+                    icon: <BsPerson />,
+                  },
+                ],
+              },
+              {
+                key: "about_us",
+                label: "About",
+                icon: <GrOrganization />,
+              },
+            ]}
+          ></Menu>
+        </Sider>
+        <Content className="content">
+          <Home />
+        </Content>
+      </Layout>
+    </Layout>
   );
 }
 
