@@ -15,7 +15,7 @@ function App() {
   const [collapsed, setCollapsed] = useState(false);
   return (
     <Layout className="container">
-      {/* <Header className="header">
+      <Header className="header">
         <div style={{ display: "flex", alignItems: "center" }}>
           <GiHamburgerMenu
             onClick={() => setCollapsed(!collapsed)}
@@ -24,8 +24,8 @@ function App() {
           />
           <div className="brand">Cool Dashboard</div>
         </div>
-      </Header> */}
-      <Header>
+      </Header>
+      {/* <Header>
         <div className="logo" />
         <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]}>
           <Menu.Item key="1" icon={<HiOutlineHome />}>
@@ -38,7 +38,7 @@ function App() {
             Logout
           </Menu.Item>
         </Menu>
-      </Header>
+      </Header> */}
       <Layout>
         <Sider collapsed={collapsed} theme="light">
           <Menu
