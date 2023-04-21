@@ -14,6 +14,7 @@ const Home = () => {
         console.log("Error: ", err);
       });
     const loginPage = await usersService.login("v@gmail.com", "password");
+
     if (usersPage) setUsers(usersPage.users);
   };
 
@@ -22,7 +23,9 @@ const Home = () => {
   }, []);
   return (
     <>
-      <Button type="primary">Hello</Button>
+      <Button type="primary" onClick={() => console.log("Yeeh")}>
+        Hello
+      </Button>
       <ul>
         {users.map((user) => (
           <li key={user.id}>{user.name}</li>
