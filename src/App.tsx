@@ -11,6 +11,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ContextWrapper from "./ContextWrapper";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
@@ -73,6 +74,7 @@ function App() {
           </Sider>
           <Content className="content">
             <Home />
+            <LoginPage />
           </Content>
         </Layout>
       </Layout>

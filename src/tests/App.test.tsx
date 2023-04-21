@@ -2,13 +2,25 @@ import { describe, it, vi } from "vitest";
 import { render, screen, act, fireEvent } from "@testing-library/react";
 import App from "../App";
 import Home from "../pages/Home";
-import { setupServer } from "msw/node";
-import { graphql } from "msw";
 import usersService from "../services/usersService";
+import userEvent from "@testing-library/user-event";
 
 describe("App", () => {
   it("Renders Apps", async () => {
     act(() => {
+      Object.defineProperty(window, "matchMedia", {
+        writable: true,
+        value: vi.fn().mockImplementation((query) => ({
+          matches: false,
+          media: query,
+          onchange: null,
+          addListener: vi.fn(),
+          removeListener: vi.fn(),
+          addEventListener: vi.fn(),
+          removeEventListener: vi.fn(),
+          dispatchEvent: vi.fn(),
+        })),
+      });
       render(<App />);
     });
     const message = await screen.findByText(/Cool Dashboard/i);
@@ -21,17 +33,20 @@ describe("App", () => {
       render(<Home />);
     });
     const message2 = await screen.findByText(/Mariam/i);
-    fireEvent.click(screen.getByRole("button", { name: "Hello" }));
 
+    const button = screen.getByRole("button", { name: "Hello" });
+    userEvent.click(button);
+    expect(button).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Hello" })).toBeInTheDocument();
     expect(message2).toBeVisible();
   });
 
   it("Renders getAllUsers", async () => {
     const users = await usersService.getAllUsers(
-      "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4LCJleHAiOjE2ODI0MzYzOTl9.oW1D-39uSB2BLMtJZQQhwyPWH8KgiTJHRhUY76incNo"
+      import.meta.env.VITE_TOKEN_TEST as string
     );
-    console.log(users);
+
+    // expect(users).toMatchInlineSnapshot()
     expect(users).toEqual({
       users: [
         {
@@ -83,5 +98,19 @@ describe("App", () => {
     });
 
     // expect(users).toBeDefined();
+  });
+
+  it("Test function", async () => {
+    const getApples = vi.fn(() => 0);
+    getApples();
+
+    expect(getApples).toHaveBeenCalled();
+    expect(getApples).toHaveReturnedWith(0);
+
+    getApples.mockReturnValueOnce(5);
+
+    const res = getApples();
+    expect(res).toBe(5);
+    expect(getApples).toHaveNthReturnedWith(2, 5);
   });
 });
