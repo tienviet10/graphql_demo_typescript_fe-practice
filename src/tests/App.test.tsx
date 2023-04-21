@@ -4,23 +4,25 @@ import App from "../App";
 import Home from "../pages/Home";
 import usersService from "../services/usersService";
 import userEvent from "@testing-library/user-event";
+import LoginPage from "../pages/LoginPage";
+
+Object.defineProperty(window, "matchMedia", {
+  writable: true,
+  value: vi.fn().mockImplementation((query) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  })),
+});
 
 describe("App", () => {
   it("Renders Apps", async () => {
     act(() => {
-      Object.defineProperty(window, "matchMedia", {
-        writable: true,
-        value: vi.fn().mockImplementation((query) => ({
-          matches: false,
-          media: query,
-          onchange: null,
-          addListener: vi.fn(),
-          removeListener: vi.fn(),
-          addEventListener: vi.fn(),
-          removeEventListener: vi.fn(),
-          dispatchEvent: vi.fn(),
-        })),
-      });
       render(<App />);
     });
     const message = await screen.findByText(/Cool Dashboard/i);
@@ -35,7 +37,8 @@ describe("App", () => {
     const message2 = await screen.findByText(/Mariam/i);
 
     const button = screen.getByRole("button", { name: "Hello" });
-    userEvent.click(button);
+    await userEvent.click(button);
+
     expect(button).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Hello" })).toBeInTheDocument();
     expect(message2).toBeVisible();
@@ -112,5 +115,16 @@ describe("App", () => {
     const res = getApples();
     expect(res).toBe(5);
     expect(getApples).toHaveNthReturnedWith(2, 5);
+  });
+
+  it("Test login", async () => {
+    render(<LoginPage />);
+
+    const email = screen.getByTestId("email-test");
+    await userEvent.type(email, "v@gmail.com");
+    const password = screen.getByTestId("password-test");
+    await userEvent.type(password, "password");
+    const button = screen.getByRole("button", { name: "Submit" });
+    await userEvent.click(button);
   });
 });

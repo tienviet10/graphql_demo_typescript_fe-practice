@@ -1,9 +1,10 @@
 import React from "react";
 import { Button, Checkbox, Form, Input } from "antd";
+import usersService from "../services/usersService";
 
 const LoginPage = () => {
-  const onFinish = (values: any) => {
-    console.log("Success:", values);
+  const onFinish = async (values: any) => {
+    await usersService.login(values.username, values.password);
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -25,7 +26,7 @@ const LoginPage = () => {
         name="username"
         rules={[{ required: true, message: "Please input your username!" }]}
       >
-        <Input />
+        <Input data-testid="email-test" />
       </Form.Item>
 
       <Form.Item
@@ -33,7 +34,7 @@ const LoginPage = () => {
         name="password"
         rules={[{ required: true, message: "Please input your password!" }]}
       >
-        <Input.Password />
+        <Input.Password data-testid="password-test" />
       </Form.Item>
 
       <Form.Item
