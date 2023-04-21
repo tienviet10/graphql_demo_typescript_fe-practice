@@ -11,18 +11,6 @@ import { store } from "./app/store";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <ApolloProvider client={apolloClient}>
-        <ConfigProvider
-          theme={{
-            token: {
-              colorPrimary: "#1DA57A",
-            },
-          }}
-        >
-          <App />
-        </ConfigProvider>
-      </ApolloProvider>
-    </Provider>
+    <App />
   </React.StrictMode>
 );

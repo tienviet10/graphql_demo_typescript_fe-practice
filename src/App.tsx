@@ -10,22 +10,24 @@ import { BsPerson } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import ContextWrapper from "./ContextWrapper";
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
   return (
-    <Layout className="container">
-      <Header className="header">
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <GiHamburgerMenu
-            onClick={() => setCollapsed(!collapsed)}
-            size={28}
-            style={{ marginRight: 20 }}
-          />
-          <div className="brand">Cool Dashboard</div>
-        </div>
-      </Header>
-      {/* <Header>
+    <ContextWrapper>
+      <Layout className="container">
+        <Header className="header">
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <GiHamburgerMenu
+              onClick={() => setCollapsed(!collapsed)}
+              size={28}
+              style={{ marginRight: 20 }}
+            />
+            <div className="brand">Cool Dashboard</div>
+          </div>
+        </Header>
+        {/* <Header>
         <div className="logo" />
         <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]}>
           <Menu.Item key="1" icon={<HiOutlineHome />}>
@@ -39,41 +41,42 @@ function App() {
           </Menu.Item>
         </Menu>
       </Header> */}
-      <Layout>
-        <Sider collapsed={collapsed} theme="light">
-          <Menu
-            mode="inline"
-            items={[
-              {
-                key: "Home",
-                label: "Home",
-                icon: <HiOutlineHome />,
-                children: [
-                  {
-                    key: "add_profile",
-                    label: "Add Profile",
-                    icon: <BsPerson />,
-                  },
-                  {
-                    key: "all_users",
-                    label: "All Users",
-                    icon: <BsPerson />,
-                  },
-                ],
-              },
-              {
-                key: "about_us",
-                label: "About",
-                icon: <GrOrganization />,
-              },
-            ]}
-          ></Menu>
-        </Sider>
-        <Content className="content">
-          <Home />
-        </Content>
+        <Layout>
+          <Sider collapsed={collapsed} theme="light">
+            <Menu
+              mode="inline"
+              items={[
+                {
+                  key: "Home",
+                  label: "Home",
+                  icon: <HiOutlineHome />,
+                  children: [
+                    {
+                      key: "add_profile",
+                      label: "Add Profile",
+                      icon: <BsPerson />,
+                    },
+                    {
+                      key: "all_users",
+                      label: "All Users",
+                      icon: <BsPerson />,
+                    },
+                  ],
+                },
+                {
+                  key: "about_us",
+                  label: "About",
+                  icon: <GrOrganization />,
+                },
+              ]}
+            ></Menu>
+          </Sider>
+          <Content className="content">
+            <Home />
+          </Content>
+        </Layout>
       </Layout>
-    </Layout>
+    </ContextWrapper>
   );
 }
 
